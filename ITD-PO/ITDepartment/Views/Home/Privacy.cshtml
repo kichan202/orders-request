@@ -1,6 +1,29 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
+@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
+<h1>Welcome, @HttpContextAccessor.HttpContext.User.Identity.Name From</h1>
+<h1>@HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Department")?.Value Department</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<h1>@HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Role")?.Value</h1>
+
+@if(HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Role")?.Value == "1")
+{
+    <h1>This is an admin............. Build interface for admin.............. Keano and jermaine</h1>
+}
+@if(HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Role")?.Value == "2")
+{
+    <h1>This is a regular Employee..........Build interface for Regular empoleyee........... Keano and jermaine</h1>
+}
+
+@if(HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Role")?.Value == "3")
+{
+    <h1>This is the Secretary(should only be one as per Specs)..........Build interface for Secretary........... Keano and jermaine</h1>
+}
+
+
+
+<form method="post" asp-controller="Home" asp-action="Logout">
+    <input type="submit" name="logout" value="logout"/>
+</form>
